@@ -15,16 +15,16 @@
 <body>
         <div class="form-group do">
                 <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" name="mobile" placeholder="رقم المحمول" id="password"/>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="mobile" placeholder="الرقم البريدي" id="password"/>
                         </div>
-                        <label class="col-md-2 control-label">رقم المحمول</label>
+                        <label class="col-md-2 control-label" >الرقم البريدي</label>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="number" class="form-control" name="postal_code" placeholder="الرقم البريدي" id="password"/>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="postal_code" placeholder="الرقم البريدي" id="password"/>
                         </div>
-                        <label class="col-md-2 control-label">الرقم البريدي</label>
+                        <label class="col-md-2 control-label" >الرقم البريدي</label>
                     </div>
             </div>
             
@@ -32,6 +32,7 @@
 
         
         $( document ).ready(function() {
+
     console.log( "ready!" );
     obj1={
         name:"postal_code",
@@ -49,7 +50,7 @@
     }
 
     objects=[obj1,obj2,obj3]
-    $('.do').AddMore(objects);
+    $('.do').AddMore(0,"col-md-2",objects);
 
 
 });

@@ -1,12 +1,24 @@
 (function ( $ ) {
  
-    $.fn.AddMore = function(objects) {
+    $.fn.AddMore = function(Top,BootstrapClass,objects) {
         var AddMoreButton=$('<button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>');
         var myContent=this.html();
         var myClass=this;
-    
-            this.append(AddMoreButton);
 
+        
+        if(Top){
+            AddMoreButton.addClass(BootstrapClass)
+           AddMoreButton.prependTo(this)
+        }
+        else{
+            var div1=$('<div class="col-md-8"></div>');
+            div1.append(AddMoreButton);
+            this.append(div1);
+        }
+        // end of div
+        
+
+    
             $(".add-more").click(function(){ 
                 Build();
             });
@@ -31,13 +43,45 @@
 
             function Build(){
                 var div=$('<div class="canBeRemoved"></div>');
-                div.append(myContent);
-                var RemoveButton=$('<button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>');            
-                div.append(RemoveButton);
+                var RemoveButton=$('<button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>');  
+                if(Top){
+                    AddRemoveAtTheTop(RemoveButton,div);
+                    div.append(myContent);
+
+                }
+                else{
+                    div.append(myContent);
+                    AddRemoveAtTheEnd(RemoveButton,div);
+                }
                 myClass.after(div);
            }
 
-            
+
+           function AddRemoveAtTheTop(RemoveButton,div){
+               RemoveButton.addClass(BootstrapClass);
+                RemoveButton.prependTo(div);
+           }
+
+            function AddRemoveAtTheEnd(RemoveButton,div){
+                var ButtonContainer=$('<div class="col-md-8"></div>');
+                ButtonContainer.append(RemoveButton);
+                div.append(ButtonContainer)
+            }
           };
+
+
+          function AddButtonAtTheTop(AddMoreButton){
+
+          }
+          function AddButtonAtTheEnd(AddMoreButton){
+           
+          }
  
 }( jQuery ));
+
+
+
+$( document ).ready(function() {
+    $('label').css("height",$('input').eq(0).css("height"));
+
+});
