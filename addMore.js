@@ -1,6 +1,6 @@
 (function ( $ ) {
  
-    $.fn.AddMore = function(objects,repeated) {
+    $.fn.AddMore = function(objects) {
         var AddMoreButton=$('<button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>');
         var myContent=this.html();
         var myClass=this;
@@ -16,7 +16,8 @@
                 $(this).parents(".canBeRemoved").remove();
             });
 
-            if(objects && repeated){
+            if(objects){
+                var repeated=objects[0].values.length
                 for(var i=1;i<repeated;i++){
                     Build();
                 }
