@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
     <script src="addMore.js"></script>
-</head>
+  </head>
 
-<body>
-            <div class="form-group" >
-                <div class="form-group do">
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="mobile" placeholder="الرقم البريدي" id="password"/>
-                        </div>
-                        <label class="col-md-2 control-label" >الرقم البريدي</label>
-                    </div>
-                    <div class="form-group does">
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="mobile" placeholder="الرقم البريدي" id="password"/>
-                            </div>
-                            <label class="col-md-2 control-label" >الرقم البريدي</label>
-                        </div>
-            </div>
-            
+  <body>
+    <div class="form-group">
+      <div class="form-group do">
+        <div class="col-md-8">
+          <input
+            type="text"
+            class="form-control"
+            name="mobile"
+            placeholder="الرقم البريدي"
+            id="password"
+          />
+        </div>
+        <label class="col-md-2 control-label">الرقم البريدي</label>
+      </div>
+      <div class="form-group does">
+        <div class="col-md-8">
+          <input
+            type="text"
+            class="form-control"
+            name="mobile"
+            placeholder="الرقم البريدي"
+            id="password"
+          />
+        </div>
+        <label class="col-md-2 control-label">الرقم البريدي</label>
+      </div>
+    </div>
+
     <script>
+      $(document).ready(function() {
+        console.log("ready!");
+        obj1 = {
+          name: "postal_code",
+          values: ["22", "33", "44", "55"]
+        };
 
-        
-        $( document ).ready(function() {
+        obj2 = {
+          name: "mobile",
+          values: ["2222", "333333", "4444444", "55"]
+        };
 
-    console.log( "ready!" );
-    obj1={
-        name:"postal_code",
-        values:["22","33","44","55"]
-    }
+        obj3 = {
+          name: "postal_code",
+          values: ["22", "33", "44", "55"]
+        };
 
-    obj2={
-        name:"mobile",
-        values:["2222","333333","4444444","55"]
-    }
-
-    obj3={
-        name:"postal_code",
-        values:["22","33","44","55"]
-    }
-
-    objects=[obj1,obj2,obj3]
-    $('.do').AddMore(0);
-    $('.does').AddMore(0);
-
-
-});
-
-
-
-    
+        objects = [obj1, obj2, obj3];
+        $(".do").AddMore({
+          onAdd: function(div) {
+            console.log("element just Added", div);
+            $(div).css("background-color", "red");
+          },
+          onFetch: function(div) {
+            $(div).css("background-color", "green");
+          },
+          objects: objects
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
