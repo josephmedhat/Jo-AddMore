@@ -8,6 +8,7 @@
         BootstrapClass: "col-md-2",
         buttonAddLabel: "Add",
         buttonRemoveLabel: "Remove",
+        maskCard: "$",
         onAdd: () => {},
         onFetch: () => {}
       },
@@ -15,7 +16,7 @@
     );
     var AddMoreButton = $(
       '<button class=" add-more" ><i class="glyphicon glyphicon-plus"></i> ' +
-        options.buttonAddLabel +
+        settings.buttonAddLabel +
         "</button>"
     );
     var myContent = this.html();
@@ -44,19 +45,23 @@
         .parents(".canBeRemoved")
         .remove();
     });
+    if ($(this).attr("data-value")) {
+      settings.objects = JSON.parse($(this).attr("data-value"));
+    }
 
     if (settings.objects.length > 0) {
-      var repeated = settings.objects[0].values.length;
+      var repeated = settings.objects.length;
       for (var i = 1; i < repeated; i++) {
         //fire Fetch Event
         settings.onFetch(Build());
       }
       settings.objects.forEach(function(obj, index) {
-        $("input[name=" + obj.name + "]").val(obj.values[0]);
-        for (var i = 1; i < obj.values.length; i++) {
-          $("input[name=" + obj.name + "]")
-            .eq(i)
-            .val(obj.values[i]);
+        for (var name in obj) {
+          if ($("[name='" + maskName(name) + "']").eq(index).length > 0) {
+            $("[name='" + maskName(name) + "']")
+              .eq(index)
+              .val(obj[name]);
+          }
         }
       });
     }
@@ -77,6 +82,12 @@
       }
       myClass.after(div);
       return div;
+    }
+
+    function maskName(name) {
+      return $(myClass)
+        .attr("data-mask")
+        .replace(settings.maskCard, name);
     }
 
     function AddRemoveAtTheTop(RemoveButton, div) {
