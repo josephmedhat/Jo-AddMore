@@ -3,16 +3,20 @@
     var settings = $.extend(
       {
         // These are the defaults.
-        BootstrapClass: "col-12",
-        Top: true,
+        Top: false,
         objects: [],
+        BootstrapClass: "col-md-2",
+        buttonAddLabel: "Add",
+        buttonRemoveLabel: "Remove",
         onAdd: () => {},
         onFetch: () => {}
       },
       options
     );
     var AddMoreButton = $(
-      '<button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>'
+      '<button class=" add-more" ><i class="glyphicon glyphicon-plus"></i> ' +
+        options.buttonAddLabel +
+        "</button>"
     );
     var myContent = this.html();
     var myClass = this;
@@ -23,19 +27,19 @@
       AddMoreButton.addClass(settings.BootstrapClass);
       AddMoreButton.prependTo(this);
     } else {
-      var div1 = $('<div class="col-md-8"></div>');
+      var div1 = $('<div class="col-md-12"></div>');
       div1.append(AddMoreButton);
       myClass.append(div1);
     }
-    // end of div
-
-    $("." + na).click(function() {
+    $("." + na).click(function(e) {
       //fire onAdd event
+      e.preventDefault();
       settings.onAdd(Build());
     });
 
-    $("body").on("click", ".remove", function() {
+    $("body").on("click", ".remove", function(e) {
       console.log("removed");
+      e.preventDefault();
       $(this)
         .parents(".canBeRemoved")
         .remove();
@@ -60,7 +64,9 @@
     function Build() {
       var div = $('<div class="form-group canBeRemoved"></div>');
       var RemoveButton = $(
-        '<button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>'
+        '<button class="btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> ' +
+          settings.buttonRemoveLabel +
+          "</button>"
       );
       if (settings.Top) {
         AddRemoveAtTheTop(RemoveButton, div);
@@ -79,7 +85,7 @@
     }
 
     function AddRemoveAtTheEnd(RemoveButton, div) {
-      var ButtonContainer = $('<div class="col-md-8"></div>');
+      var ButtonContainer = $('<div class="col-md-12"></div>');
       ButtonContainer.append(RemoveButton);
       div.append(ButtonContainer);
     }
@@ -97,12 +103,3 @@
     );
   };
 })(jQuery);
-
-$(document).ready(function() {
-  $("label").css(
-    "height",
-    $("input")
-      .eq(0)
-      .css("height")
-  );
-});
