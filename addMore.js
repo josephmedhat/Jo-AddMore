@@ -43,36 +43,41 @@
         .parent()
         .parent();
       e.preventDefault();
-      settings.onAdd(Build(content));
+      settings.onAdd(Build(content), content);
     });
     $("body").on("click", ".remove", function(e) {
-      console.log("removed");
       e.preventDefault();
       $(this)
         .parents(".canBeRemoved")
         .remove();
     });
 
-    if ($(this).attr("data-value")) {
-      settings.objects = JSON.parse($(this).attr("data-value"));
-    }
+    // if ($(this).attr("data-value")) {
+    //     settings.objects = JSON.parse($(this).attr("data-value"));
+    // }
 
-    if (settings.objects.length > 0) {
-      var repeated = settings.objects.length;
-      for (var i = 1; i < repeated; i++) {
-        //fire Fetch Event
-        settings.onFetch(Build(myClass));
-      }
-      settings.objects.forEach(function(obj, index) {
-        for (var name in obj) {
-          if ($("[name='" + maskName(name) + "']").eq(index).length > 0) {
-            $("[name='" + maskName(name) + "']")
-              .eq(index)
-              .val(obj[name]);
-          }
+    $(this).each(function(i, element) {
+      let values = JSON.parse($(element).attr("data-value"));
+      if (values.length > 0) {
+        var repeated = values.length;
+        for (var i = 1; i < repeated; i++) {
+          //fire Fetch Event
+          settings.onFetch(Build($(element)));
         }
-      });
-    }
+
+        values.forEach(function(obj, index) {
+          for (var name in obj) {
+            if (
+              $("[name='" + maskName(name, element) + "']").eq(index).length > 0
+            ) {
+              $("[name='" + maskName(name, element) + "']")
+                .eq(index)
+                .val(obj[name]);
+            }
+          }
+        });
+      }
+    });
 
     function Build(elem) {
       //   console.log(content);
@@ -97,8 +102,8 @@
       return div;
     }
 
-    function maskName(name) {
-      return $(myClass)
+    function maskName(name, element) {
+      return $(element)
         .attr("data-mask")
         .replace(settings.maskCard, name);
     }
@@ -109,7 +114,6 @@
     }
 
     function AddRemoveAtTheEnd(RemoveButton, div) {
-      console.log(div);
       if (div.find(".add-more-button-container").length > 0) {
         div.find(".add-more-button-container").append(RemoveButton);
       } else {
