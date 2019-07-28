@@ -28,16 +28,23 @@
       AddMoreButton.addClass(settings.BootstrapClass);
       AddMoreButton.prependTo(this);
     } else {
-      var div1 = $('<div class="col-md-12"></div>');
+      var div1 = $('<div class="add-more-button-container col-md-12"></div>');
       div1.append(AddMoreButton);
       myClass.append(div1);
     }
-    $("." + na).click(function(e) {
-      //fire onAdd event
-      e.preventDefault();
-      settings.onAdd(Build());
-    });
+    // $("." + na).click(function(e) {
+    //     //fire onAdd event
+    //     e.preventDefault();
+    //     settings.onAdd(Build());
+    // });
 
+    $("body").on("click", ".add-more", function(e) {
+      let content = $(this)
+        .parent()
+        .parent();
+      e.preventDefault();
+      settings.onAdd(Build(content));
+    });
     $("body").on("click", ".remove", function(e) {
       console.log("removed");
       e.preventDefault();
@@ -45,6 +52,7 @@
         .parents(".canBeRemoved")
         .remove();
     });
+
     if ($(this).attr("data-value")) {
       settings.objects = JSON.parse($(this).attr("data-value"));
     }
@@ -53,7 +61,7 @@
       var repeated = settings.objects.length;
       for (var i = 1; i < repeated; i++) {
         //fire Fetch Event
-        settings.onFetch(Build());
+        settings.onFetch(Build(myClass));
       }
       settings.objects.forEach(function(obj, index) {
         for (var name in obj) {
@@ -66,7 +74,12 @@
       });
     }
 
-    function Build() {
+    function Build(elem) {
+      //   console.log(content);
+
+      content = elem.clone();
+      content.find(".remove").remove();
+      content = content.html();
       var div = $('<div class="form-group canBeRemoved"></div>');
       var RemoveButton = $(
         '<button class="btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> ' +
@@ -75,12 +88,12 @@
       );
       if (settings.Top) {
         AddRemoveAtTheTop(RemoveButton, div);
-        div.append(myContent);
+        div.append(content);
       } else {
-        div.append(myContent);
+        div.append(content);
         AddRemoveAtTheEnd(RemoveButton, div);
       }
-      myClass.after(div);
+      elem.after(div);
       return div;
     }
 
@@ -96,9 +109,16 @@
     }
 
     function AddRemoveAtTheEnd(RemoveButton, div) {
-      var ButtonContainer = $('<div class="col-md-12"></div>');
-      ButtonContainer.append(RemoveButton);
-      div.append(ButtonContainer);
+      console.log(div);
+      if (div.find(".add-more-button-container").length > 0) {
+        div.find(".add-more-button-container").append(RemoveButton);
+      } else {
+        var ButtonContainer = $(
+          '<div class="add-more-button-container col-md-12"></div>'
+        );
+        ButtonContainer.append(RemoveButton);
+        div.append(ButtonContainer);
+      }
     }
   };
 
